@@ -37,8 +37,8 @@
     <script src="./Druckervergleich_files/bootstrap.min.js.Download"></script>
 
     <script>
-	// Funktion anlegen 2 Punkte 
-	function fDruck() {
+	
+function fDruck() {
 
     // Variablen deklarieren (4 Punkte)
     var vAnschaffungsPreisEco;
@@ -49,38 +49,63 @@
     var vKostenProSeiteSmart;
     var vAusgabeHTML = "";
     var vStart = 1000;
-    var vXK; //kritische Menge
+    var vXK;
 
-   
+    //Variablen mit den HTML-Inputboxen (Ids)verbinden.  (4 Punkte)
+    vAnschaffungsPreisEco = parseFloat(document.getElementById("idAnschaffungspreisECO").value);
+    vAnschaffungsPreisSmart = parseFloat(document.getElementById("idAnschaffungspreisSmart").value);
+
+    vKostenProSeiteEco = parseFloat(document.getElementById("idKostenProSeiteEco").value);
+    vKostenProSeiteSmart = parseFloat(document.getElementById("idKostenProSeiteSmart").value);
+
+
+    // Berechnung der kritischen Menge 4 Punkte
+    vXK = (vAnschaffungsPreisEco - vAnschaffungsPreisSmart) / (vKostenProSeiteSmart - vKostenProSeiteEco);
+    // Aufrunden 4 Punkte 
+    vXK = Math.round(vXK);
+    // Tabellenüberschriften erstellen (4 Punkte)
+	    vAusgabeHTML = vAusgabeHTML + "Kritische Menge: " + vXK +"</br>";
+
 vAusgabeHTML = vAusgabeHTML + "<table class='table table-striped table-bordered'>";
 vAusgabeHTML = vAusgabeHTML + "<thead class='thead-dark'><tr><th>Seitenzahl</th>";
 vAusgabeHTML = vAusgabeHTML + "<th>Gesamtkosten Eco</th>";
 vAusgabeHTML = vAusgabeHTML + "<th>Gesamtkosten Smart</th>";
 vAusgabeHTML = vAusgabeHTML + "<th>Bemerkung</th></tr></thead><tbody>";
 
+    // Schleife programmieren und Berechnungen (18+2 Punkte)=20
+    while (vStart < 10000) {
+        vGesamtkostenEco = vAnschaffungsPreisEco + (vKostenProSeiteEco * vStart);
+        vGesamtkostenSmart = vAnschaffungsPreisSmart + (vKostenProSeiteSmart * vStart);
 
+        //Verzweigungen 12 Punkte 
+        if (vGesamtkostenEco == vGesamtkostenSmart) {
 
+            vAusgabeHTML = vAusgabeHTML + "<tr style='background-color:grey; color:white'><td>" + vStart + "</td>";
+			vAusgabeHTML = vAusgabeHTML + "<td>" + vGesamtkostenEco.toFixed(2) + " €" + "</td>"
+			vAusgabeHTML = vAusgabeHTML + "<td>" + vGesamtkostenSmart.toFixed(2) + " €" + "</td>"
+			vAusgabeHTML = vAusgabeHTML + "<td>" + "Kritische Menge!" + "</td></tr>";
+        } 
+		  else if (vGesamtkostenSmart > vGesamtkostenEco) {
+            vAusgabeHTML = vAusgabeHTML + "<tr><td>" + vStart + "</td>";
+			vAusgabeHTML = vAusgabeHTML + "<td>" + vGesamtkostenEco.toFixed(2) + " €" + "</td>";
+			vAusgabeHTML = vAusgabeHTML + "<td>" + vGesamtkostenSmart.toFixed(2) + " €" + "</td>" 
+			vAusgabeHTML = vAusgabeHTML + "<td>" + "Eco ist günstiger!" + "</td></tr>"
+        } else {
 
+            vAusgabeHTML = vAusgabeHTML + "<tr><td>" + vStart + "</td>";
+			vAusgabeHTML = vAusgabeHTML + "<td>" + vGesamtkostenEco.toFixed(2) + " €" + "</td>";
+			vAusgabeHTML = vAusgabeHTML + "<td>" + vGesamtkostenSmart.toFixed(2) + " €" + "</td>";
+			vAusgabeHTML = vAusgabeHTML + "<td>" + "Smart ist günstiger!" + "</td></tr>"
+        }
 
-
-
-
-   
-
-        
-    
-    // Tabelle schließen 
+        //Inkrement 2 Punkte
+        vStart = vStart + 1000;
+    }
+    // Tabelle schließen inkl. Ausgabe 4 Punkte 
     vAusgabeHTML = vAusgabeHTML + "</table></br>";
-
 
     document.getElementById("idAusgabe").innerHTML = vAusgabeHTML;
 }
-
-
-
-
-
-
 
 
     </script>
